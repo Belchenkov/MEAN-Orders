@@ -1,0 +1,15 @@
+{
+  "name": "meanorders",
+  "version": "1.0.0",
+  "description": "Fullstack MEAN Application -- Orders ---",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Express.js",
+    "Angular"
+  ],
+  "author": "Aleksey Belchenkov",
+  "license": "MIT"
+}
