@@ -1,7 +1,7 @@
 {
   "name": "meanorders",
   "version": "1.0.0",
-  "description": "Fullstack MEAN Application -- Orders ---",
+  "description": "Fullstack MEAN Application -- Orders --",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +11,8 @@
     "Angular"
   ],
   "author": "Aleksey Belchenkov",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
