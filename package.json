@@ -1,15 +1,26 @@
 {
   "name": "meanorders",
   "version": "1.0.0",
-  "description": "Fullstack MEAN Application -- Orders ---",
+  "description": "Fullstack MEAN Application -- Orders --",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index",
+    "server": "nodemon index"
   },
   "keywords": [
     "Express.js",
     "Angular"
   ],
   "author": "Aleksey Belchenkov",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "mongoose": "^5.1.7",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
 }
