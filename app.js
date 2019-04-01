@@ -10,7 +10,7 @@ const positionRoutes = require('./routes/position');
 const keys = require('./config/keys');
 
 mongoose.connect(keys.mongoURI)
-    .then(() => console.log('MognoDB Connected ...'))
+    .then(() => console.log('MongoDB Connected ...'))
     .catch(err => console.log(err));
 
 app.use(require('morgan')('dev'));
