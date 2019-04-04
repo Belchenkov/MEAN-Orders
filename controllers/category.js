@@ -1,4 +1,8 @@
-module.exports.getAll = (req, res) => {};
+module.exports.getAll = (req, res) => {
+    res.json({
+        message: 'Categories'
+    });
+};
 
 module.exports.getById = (req, res) => {};
 
