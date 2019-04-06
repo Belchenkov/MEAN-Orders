@@ -22,9 +22,15 @@ module.exports.remove = (req, res) => {
     }
 };
 
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
     try {
-
+        const position = await new Position({
+            name: req.body.name,
+            cost: req.body.cost,
+            category: req.body.category,
+            user: req.user.id
+        }).save();
+        res.status(201).json(position);
     } catch (err) {
         errorHandler(res, err);
     }
