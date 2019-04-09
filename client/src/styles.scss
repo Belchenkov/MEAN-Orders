@@ -1,2 +1,12 @@
 @import "~materialize-css/dist/css/materialize.min.css";
 @import "theme/styles.min.css";
+@import url('https://fonts.googleapis.com/css?family=Cuprum:400,700|Marmelad&subset=cyrillic');
+
+body {
+  font-family: 'Cuprum', sans-serif!important;
+}
+
+nav {
+  font-family: 'Marmelad', sans-serif;
+  text-shadow: 0 0 5px rgba(0, 0, 0, .8);
+}
