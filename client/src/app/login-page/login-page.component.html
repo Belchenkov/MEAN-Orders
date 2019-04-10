@@ -45,7 +45,7 @@
    <button
       type="submit"
       class="modal-action btn green darken-3 waves-effect btn-small"
-      [disabled]="form.invalid"
+      [disabled]="form.invalid || form.disabled"
     ><i class="material-icons left">fingerprint</i>
       Войти
    </button>
