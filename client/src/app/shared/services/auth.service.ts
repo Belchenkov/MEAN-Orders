@@ -12,11 +12,10 @@ export class AuthService {
 
   private token = null;
 
-  constructor (private http: HttpClient) {
+  constructor (private http: HttpClient) {}
 
-  }
-
-  register () {
+  register (user: User): Observable<User> {
+    return this.http.post<User>('/api/auth/register', user);
   }
 
   login (user: User): Observable<{token: string}> {
