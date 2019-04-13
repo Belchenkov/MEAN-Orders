@@ -1,12 +1,28 @@
 @import "~materialize-css/dist/css/materialize.min.css";
 @import "theme/styles.min.css";
 @import url('https://fonts.googleapis.com/css?family=Cuprum:400,700|Marmelad&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script:400,700');
 
 body {
   font-family: 'Cuprum', sans-serif!important;
+}
+
+.logo-font {
+  font-family: 'Dancing Script', cursive;
 }
 
 nav {
   font-family: 'Marmelad', sans-serif;
   text-shadow: 0 0 5px rgba(0, 0, 0, .8);
 }
+
+// Utilities
+.d-f {
+  display: flex;
+}
+
+.mr-1 {
+  margin-right: 1rem;
+}
+
+
