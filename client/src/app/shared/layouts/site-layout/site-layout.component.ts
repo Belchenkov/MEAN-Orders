@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 
 import {AuthService} from "../../services/auth.service";
+import {MaterialService} from "../../classes/material.service";
 
 @Component({
   selector: 'app-site-layout',
   templateUrl: './site-layout.component.html',
   styleUrls: ['./site-layout.component.scss']
 })
-export class SiteLayoutComponent implements OnInit {
+export class SiteLayoutComponent implements AfterViewInit {
+
+  @ViewChild('floatingBtn') floatingBtnRef: ElementRef;
 
   navLinks = [
     { url: '/overview', name: 'Обзор', icon: 'remove_red_eye' },
@@ -23,7 +26,8 @@ export class SiteLayoutComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    MaterialService.initializeFloatingButton(this.floatingBtnRef);
   }
 
   logout(event: Event) {
