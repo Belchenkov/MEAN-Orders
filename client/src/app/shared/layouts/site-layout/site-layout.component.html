@@ -1,3 +1,43 @@
-<p>
-  site-layout works!
-</p>
+<ul class="sidenav sidenav-fixed a-sidenav indigo  lighten-5">
+  <h4 class="logo-font">
+    <img src="https://img.icons8.com/dusk/24/000000/rice-bowl.png" />
+    MeanOrder
+  </h4>
+  <li
+    class="bold"
+    routerLinkActive="active"
+    *ngFor="let link of navLinks"
+  >
+    <a routerLink="{{link.url}}" class="waves-effect waves-orange">
+      <i class="material-icons">{{ link.icon }}</i> {{ link.name }}
+    </a>
+  </li>
+
+  <li class="bold last">
+    <a href="#" class="waves-effect waves-orange" (click)="logout($event)">
+    <i class="material-icons">exit_to_app</i> Выйти
+  </a></li>
+</ul>
+
+<main class="content">
+  <router-outlet></router-outlet>
+</main>
+
+<!--Floating button-->
+<div class="fixed-action-btn" #floatingBtn>
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">add</i>
+  </a>
+  <ul>
+    <li>
+      <a routerLink="/order" class="btn-floating green">
+        <i class="material-icons">assignment</i>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/categories/new" class="btn-floating blue">
+        <i class="material-icons">list</i>
+      </a>
+    </li>
+  </ul>
+</div>
