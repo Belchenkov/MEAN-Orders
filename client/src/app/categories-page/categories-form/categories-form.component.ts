@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {switchMap} from "rxjs/operators";
 import {of} from "rxjs";
@@ -23,6 +23,7 @@ import {Category} from "../../shared/interfaces";
 
     constructor(
       private route: ActivatedRoute,
+      private router: Router,
       private categoryService: CategoriesService
       ) { }
 
@@ -108,8 +109,22 @@ import {Category} from "../../shared/interfaces";
         error => {
           MaterialService.toast(error.error.message);
           this.form.enable();
-        }
+        },
+        () => this.router.navigate(['/categories'])
       )
+    }
+
+    deleteCategory() {
+      const decision = window.confirm(`Вы действительно хотите удалить категорию ${this.category.name}`);
+
+      if (decision) {
+        this.categoryService.delete(this.category._id)
+          .subscribe(
+            response => MaterialService.toast(response.message),
+            error => MaterialService.toast(error.message),
+            () => this.router.navigate(['/categories'])
+          )
+      }
     }
 
   }
