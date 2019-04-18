@@ -11,17 +11,27 @@
       </button>
     </div>
 
-    <div class="collection">
-      <a class="collection-item black-text collection-item-icon">
+    <div *ngIf="!loading; else loader">
+      <div class="collection" *ngIf="positions.length !==0; else empty">
+        <a
+          class="collection-item collection-item-icon"
+          *ngFor="let position of positions"
+        >
         <span>
-            Кофе <strong>20 руб.</strong>
+            {{position.name}} <strong>{{position.cost}} руб.</strong>
         </span>
-        <span>
+          <span>
             <i class="material-icons red-text">delete</i>
         </span>
-      </a>
+        </a>
+      </div>
+      <ng-template #empty>
+        <div class="center">В категории позиций нет</div>
+      </ng-template>
     </div>
-  </div>
+    <ng-template #loader>
+      <app-loader></app-loader>
+    </ng-template>
 </div>
 
 <!-- Modal -->
