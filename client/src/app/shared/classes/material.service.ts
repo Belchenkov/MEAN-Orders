@@ -10,6 +10,19 @@ export class MaterialService {
   static initializeFloatingButton(ref: ElementRef) {
     M.FloatingActionButton.init(ref.nativeElement);
   }
+
+  static updateTextFields() {
+    M.updateTextFields();
+  }
+
+  static initModal(ref: ElementRef): MaterialInstanse {
+    return M.Modal.init(ref.nativeElement);
+  }
 }
 
+export interface MaterialInstanse {
+  open?(): void
+  close?(): void
+  destroy?(): void
+}
 
