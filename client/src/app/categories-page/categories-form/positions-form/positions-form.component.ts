@@ -26,6 +26,7 @@ export class PositionsFormComponent implements OnInit, AfterViewInit, OnDestroy 
   loading: boolean = false;
   modal: MaterialInstanse;
   form: FormGroup;
+  positionId = null;
 
   constructor(private positionService: PositionsService) { }
 
@@ -53,11 +54,21 @@ export class PositionsFormComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onSelectPosition(position: Position) {
+    this.positionId = position._id;
+
+    this.form.patchValue({
+      name: position.name,
+      cost: position.cost
+    });
+
     this.modal.open();
+    MaterialService.updateTextFields();
   }
 
   onAddPosition() {
+    this.positionId = null;
     this.modal.open();
+    this.form.reset({name: null, cost: 1});
   }
 
   onSubmit() {
@@ -69,18 +80,36 @@ export class PositionsFormComponent implements OnInit, AfterViewInit, OnDestroy 
       category: this.categoryId
     };
 
-    this.positionService.create(newPosition)
-      .subscribe(
+    const completed = () => {
+      this.modal.close();
+      this.form.enable();
+      this.form.reset({name: '', coast: 1});
+    };
+    
+    if (this.positionId) {
+      newPosition._id = this.positionId;
+      this.positionService.update(newPosition)
+        .subscribe(
         position => {
-              MaterialService.toast('Позиция создана');
-              this.positions.push(position);
-            },
-      error => MaterialService.toast(error.error.message),
-   () => {
-              this.modal.close();
-              this.form.enable();
-              this.form.reset({name: '', coast: 1});
-   });
+          const idx = this.positions.findIndex(p => p._id === position._id);
+          this.positions[idx] = position;
+
+          MaterialService.toast('Изменения сохранены');
+        },
+        error => MaterialService.toast(error.error.message),
+        () => completed()
+        );
+    } else {
+      this.positionService.create(newPosition)
+        .subscribe(
+          position => {
+            MaterialService.toast('Позиция создана');
+            this.positions.push(position);
+          },
+          error => MaterialService.toast(error.error.message),
+          () => completed()
+        );
+    }
   }
 
   onDeletePosition(position: Position) {
