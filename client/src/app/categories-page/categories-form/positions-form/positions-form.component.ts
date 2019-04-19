@@ -34,7 +34,7 @@ export class PositionsFormComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.form = new FormGroup({
       name: new FormControl(null, Validators.required),
-      cost: new FormControl(null, [Validators.required, Validators.min(1)])
+      cost: new FormControl(1, [Validators.required, Validators.min(1)])
     });
 
     this.positionService.fetch(this.categoryId)
@@ -62,6 +62,25 @@ export class PositionsFormComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onSubmit() {
     this.form.disable();
+
+    const newPosition: Position = {
+      name: this.form.value.name,
+      cost: this.form.value.cost,
+      category: this.categoryId
+    };
+
+    this.positionService.create(newPosition)
+      .subscribe(
+        position => {
+              MaterialService.toast('Позиция создана');
+              this.positions.push(position);
+            },
+      error => MaterialService.toast(error.error.message),
+   () => {
+              this.modal.close();
+              this.form.enable();
+              this.form.reset({name: '', coast: 1});
+   });
   }
 
   onDeletePosition(position: Position) {
