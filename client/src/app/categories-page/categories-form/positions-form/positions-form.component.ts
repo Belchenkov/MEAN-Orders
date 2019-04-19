@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 import {PositionsService} from "../../../shared/services/positions.service";
 import {Position} from "../../../shared/interfaces";
@@ -24,11 +25,19 @@ export class PositionsFormComponent implements OnInit, AfterViewInit, OnDestroy 
   positions: Position[] = [];
   loading: boolean = false;
   modal: MaterialInstanse;
+  form: FormGroup;
+  positionId = null;
 
   constructor(private positionService: PositionsService) { }
 
   ngOnInit() {
     this.loading = true;
+
+    this.form = new FormGroup({
+      name: new FormControl(null, Validators.required),
+      cost: new FormControl(1, [Validators.required, Validators.min(1)])
+    });
+
     this.positionService.fetch(this.categoryId)
       .subscribe(positions => {
         this.positions = positions;
@@ -45,11 +54,79 @@ export class PositionsFormComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onSelectPosition(position: Position) {
+    this.positionId = position._id;
+
+    this.form.patchValue({
+      name: position.name,
+      cost: position.cost
+    });
+
     this.modal.open();
+    MaterialService.updateTextFields();
   }
 
   onAddPosition() {
+    this.positionId = null;
     this.modal.open();
+    this.form.reset({name: null, cost: 1});
+  }
+
+  onSubmit() {
+    this.form.disable();
+
+    const newPosition: Position = {
+      name: this.form.value.name,
+      cost: this.form.value.cost,
+      category: this.categoryId
+    };
+
+    const completed = () => {
+      this.modal.close();
+      this.form.enable();
+      this.form.reset({name: '', coast: 1});
+    };
+    
+    if (this.positionId) {
+      newPosition._id = this.positionId;
+      this.positionService.update(newPosition)
+        .subscribe(
+        position => {
+          const idx = this.positions.findIndex(p => p._id === position._id);
+          this.positions[idx] = position;
+
+          MaterialService.toast('Изменения сохранены');
+        },
+        error => MaterialService.toast(error.error.message),
+        () => completed()
+        );
+    } else {
+      this.positionService.create(newPosition)
+        .subscribe(
+          position => {
+            MaterialService.toast('Позиция создана');
+            this.positions.push(position);
+          },
+          error => MaterialService.toast(error.error.message),
+          () => completed()
+        );
+    }
+  }
+
+  onDeletePosition(event: Event, position: Position) {
+    event.stopPropagation();
+    const decision = window.confirm(`Удалить позицию "${position.name}"?`);
+
+    if (decision) {
+      this.positionService.delete(position)
+        .subscribe(
+          response => {
+            const idx = this.positions.findIndex(p => p._id === position._id);
+            this.positions.splice(idx, 1);
+            MaterialService.toast(response.message)
+          },
+          error => MaterialService.toast(error.error.message)
+        )
+    }
   }
 
   onCancel() {
