@@ -45,11 +45,15 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button  class="waves-effect waves-black btn-flat" (click)="cancel()">Отмена</button>
+    <button
+      class="waves-effect waves-black btn-flat"
+      (click)="cancel()"
+      [disabled]="pending"
+    >Отмена</button>
     <button
       class="btn waves-effect"
       (click)="submit()"
-      [disabled]="order.list.length === 0"
+      [disabled]="order.list.length === 0 || pending"
     >
       <i class="material-icons left">done</i>
       Подтвердить
