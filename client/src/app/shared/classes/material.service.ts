@@ -18,6 +18,10 @@ export class MaterialService {
   static initModal(ref: ElementRef): MaterialInstanse {
     return M.Modal.init(ref.nativeElement);
   }
+
+  static initTooltip(ref: ElementRef): MaterialInstanse {
+    return M.Tooltip.init(ref.nativeElement);
+  }
 }
 
 export interface MaterialInstanse {
