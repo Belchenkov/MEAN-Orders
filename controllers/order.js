@@ -9,7 +9,7 @@ module.exports.getAll = async (req, res) => {
     if (req.query.start) {
         query.date = {
             // >=
-            $qte: req.query.start
+            $gte: req.query.start
         };
     }
 

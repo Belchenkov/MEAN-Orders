@@ -2,6 +2,16 @@ import {ElementRef} from "@angular/core";
 
 declare var M;
 
+export interface MaterialInstanse {
+  open?(): void
+  close?(): void
+  destroy?(): void
+}
+
+export interface MaterialDatepicker extends MaterialInstanse{
+  date?: Date
+}
+
 export class MaterialService {
   static toast(message: string) {
     M.toast({html: message})
@@ -18,11 +28,17 @@ export class MaterialService {
   static initModal(ref: ElementRef): MaterialInstanse {
     return M.Modal.init(ref.nativeElement);
   }
-}
 
-export interface MaterialInstanse {
-  open?(): void
-  close?(): void
-  destroy?(): void
+  static initTooltip(ref: ElementRef): MaterialInstanse {
+    return M.Tooltip.init(ref.nativeElement);
+  }
+
+  static initDatepicker(ref: ElementRef, onClose: () => void): MaterialDatepicker {
+    return M.Datepicker.init(ref.nativeElement, {
+      format: 'dd.mm.yyyy',
+      showClearBtn: true,
+      onClose
+    })
+  }
 }
 
