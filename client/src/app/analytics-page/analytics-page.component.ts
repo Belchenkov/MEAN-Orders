@@ -1,15 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Subscription} from "rxjs";
+
+import {AnalyticsService} from "../shared/services/analytics.service";
+import {AnalyticsPage} from "../shared/interfaces";
 
 @Component({
   selector: 'app-analytics-page',
   templateUrl: './analytics-page.component.html',
   styleUrls: ['./analytics-page.component.scss']
 })
-export class AnalyticsPageComponent implements OnInit {
+export class AnalyticsPageComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('gain') gainRef: ElementRef;
+  @ViewChild('order') orderRef: ElementRef;
 
-  constructor() { }
+  aSub: Subscription;
+  average: number;
+  pending = true;
 
-  ngOnInit() {
+  constructor(private service: AnalyticsService) { }
+
+  ngAfterViewInit() {
+    this.aSub = this.service.getAnalytics().subscribe((data: AnalyticsPage) => {
+      this.average = data.average;
+      this.pending = false;
+    })
+  }
+
+  ngOnDestroy() {
+    if (this.aSub) {
+      this.aSub.unsubscribe();
+    }
   }
 
 }
